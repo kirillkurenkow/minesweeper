@@ -1,3 +1,6 @@
+__all__ = ['GameError', 'MinesNumberError', 'HeightError', 'WidthError']
+
+
 class GameError(Exception):
     ...
 

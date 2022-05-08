@@ -1,4 +1,7 @@
-from Source.minesweeper import Minesweeper, GameMode
+from Source.minesweeper import (
+    Minesweeper,
+    GameMode,
+)
 
 
 def main():

@@ -1,10 +1,22 @@
-import pygame
-from pygame import locals
-from typing import List
-from .cell import Cell, CellType
 import random
 from enum import Enum
-from .exceptions import GameError, MinesNumberError, HeightError, WidthError
+from typing import List
+
+import pygame
+from pygame import locals
+
+from .cell import (
+    Cell,
+    CellType,
+)
+from .exceptions import (
+    GameError,
+    MinesNumberError,
+    HeightError,
+    WidthError,
+)
+
+__all__ = ['GameMode', 'Minesweeper']
 
 
 class GameMode(Enum):

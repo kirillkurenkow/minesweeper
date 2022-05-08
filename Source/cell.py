@@ -1,6 +1,10 @@
 from enum import Enum
-from typing import Literal, Optional
+from typing import (
+    Literal,
+    Optional,
+)
 
+__all__ = ['Cell', 'CellType']
 
 T_CELL_NUMBER = Literal[1, 2, 3, 4, 5, 6, 7, 8, 9]
 
