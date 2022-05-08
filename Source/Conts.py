@@ -38,8 +38,11 @@ class Const:
             },
         }
         min_mines_count = 10
+        max_mines_count = 200
         min_height = 9
+        max_height = 100
         min_width = 9
+        max_width = 100
 
     class Color:
         """
