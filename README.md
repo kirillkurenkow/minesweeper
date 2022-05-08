@@ -3,11 +3,11 @@ Minesweeper game
 
 ## Usage
 ### Install requirements
-```commandline
+```powershell
 python -m pip install -r requirements.txt
 ```
 ### Start game
-```commandline
+```powershell
 usage: minesweeper.py [-h] [-g {easy,normal,hard,custom}] [--height [9-100]]
                       [--width [9-100]] [--mines-count [10-200]] [--debug]
 
@@ -22,12 +22,12 @@ options:
   --debug               Debug
 ```
 #### Examples
-```commandline
+```powershell
 python minesweeper.py
 ```
-```commandline
+```powershell
 python minesweeper.py -g hard
 ```
-```commandline
+```powershell
 python minesweeper.py -g custom --width 30 --height 30 --mines-count 30
 ```
