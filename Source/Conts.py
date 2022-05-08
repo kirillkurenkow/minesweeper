@@ -4,6 +4,9 @@ __all__ = ['GameMode', 'Const']
 
 
 class GameMode(Enum):
+    """
+    Game modes
+    """
     easy = 'Easy'
     normal = 'Normal'
     hard = 'Hard'
@@ -11,7 +14,13 @@ class GameMode(Enum):
 
 
 class Const:
+    """
+    Constants
+    """
     class Game:
+        """
+        Game
+        """
         name = 'Minesweeper'
         frame_rate = 60
         modes = {
@@ -33,6 +42,9 @@ class Const:
         min_width = 9
 
     class Color:
+        """
+        Colors
+        """
         # Default colors
         black = (0, 0, 0)
         white = (255, 255, 255)
@@ -49,6 +61,9 @@ class Const:
         cell_mine = black
 
     class Size:
+        """
+        Sizes, spaces
+        """
         space = 6
         cell_space = 2
         cell = 20
@@ -58,6 +73,9 @@ class Const:
         start_button = 40
 
     class Font:
+        """
+        Font
+        """
         cell = None
         cell_size = 18
         menu = None

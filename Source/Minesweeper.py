@@ -23,6 +23,10 @@ __all__ = ['Minesweeper']
 
 
 class Minesweeper:
+    """
+    Minesweeper game class
+    """
+
     def __init__(self, game_mode: GameMode = GameMode.easy, mines_count: int = None, height: int = None,
                  width: int = None):
         if game_mode is GameMode.custom:
@@ -66,13 +70,23 @@ class Minesweeper:
         self.__MenuFont = pygame.font.Font(Const.Font.menu, Const.Font.menu_size)
 
     @property
-    def display_width(self):
+    def display_width(self) -> int:
+        """
+        Game display width
+
+        :return: Display width
+        """
         result = (Const.Size.cell_space + Const.Size.cell) * self.height + Const.Size.space * 2
         result -= Const.Size.cell_space
         return result
 
     @property
-    def display_height(self):
+    def display_height(self) -> int:
+        """
+        Game display height
+
+        :return: Display height
+        """
         result = (Const.Size.cell + Const.Size.cell_space) * self.height + Const.Size.space * 3
         result -= Const.Size.cell_space
         result += Const.Size.menu_height
@@ -80,17 +94,37 @@ class Minesweeper:
 
     @property
     def mines_count(self) -> int:
+        """
+        Mines count
+
+        :return: self.__mines_count
+        """
         return self.__mines_count
 
     @property
     def height(self) -> int:
+        """
+        Height (cells in column)
+
+        :return: self.__height
+        """
         return self.__height
 
     @property
     def width(self) -> int:
+        """
+        Width (cells in row)
+
+        :return: self.__width
+        """
         return self.__width
 
-    def __draw_game(self):
+    def __draw_game(self) -> None:
+        """
+        Draws game menu and background
+
+        :return: None
+        """
         self.__Screen.fill(Const.Color.background)
 
         # Menu rect
@@ -125,7 +159,12 @@ class Minesweeper:
         self.__timer_rect = pygame.Rect(timer_x, timer_y, Const.Size.menu_block_width, Const.Size.menu_block_height)
         pygame.draw.rect(self.__Screen, Const.Color.menu_block, self.__timer_rect)
 
-    def __draw_field(self):
+    def __draw_field(self) -> None:
+        """
+        Draws minesweeper field
+
+        :return: None
+        """
         self.__rect_field = []
 
         temp_x = Const.Size.space
@@ -168,7 +207,12 @@ class Minesweeper:
                 else:
                     pygame.draw.rect(self.__Screen, Const.Color.cell_hidden, cell_rect)
 
-    def __generate_field(self):
+    def __generate_field(self) -> None:
+        """
+        Generate game field
+
+        :return: None
+        """
         self.__field = [[Cell(CellType.empty) for _ in range(self.width)] for _ in range(self.height)]
 
         # Set mines
@@ -195,11 +239,17 @@ class Minesweeper:
                     cell.set_number(mines_count)
 
     def start_game(self) -> None:
+        """
+        Start game
+
+        :return: None
+        """
         start_ticks = pygame.time.get_ticks()
         self.__draw_game()
         self.__generate_field()
         self.__draw_field()
 
+        # Main cycle
         while True:
             self.__draw_field()
             pygame.display.update()
@@ -210,7 +260,7 @@ class Minesweeper:
                     return
                 elif event.type == locals.MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        # Start game
+                        # Start game button
                         if self.__start_rect.collidepoint(pygame.mouse.get_pos()):
                             self.__running = True
                             return self.start_game()
@@ -247,7 +297,14 @@ class Minesweeper:
             # Frame rate
             self.__Clock.tick(Const.Game.frame_rate)
 
-    def __update_timer(self, time: int):
+    def __update_timer(self, time: int) -> None:
+        """
+        Updates game timer
+
+        :param time: New time value
+
+        :return: None
+        """
         pygame.draw.rect(self.__Screen, Const.Color.menu_block, self.__timer_rect)
         text = self.__MenuFont.render(
             str(time),
@@ -258,7 +315,12 @@ class Minesweeper:
         self.__Screen.blit(text, text_rect)
         pygame.display.update()
 
-    def __update_mines_count(self):
+    def __update_mines_count(self) -> None:
+        """
+        Updates mines counter
+
+        :return: None
+        """
         flags_count = len([row for row in self.__field for x in row if x.is_flagged])
         mines_count = self.mines_count - flags_count
         pygame.draw.rect(self.__Screen, Const.Color.menu_block, self.__mines_rect)
@@ -271,7 +333,12 @@ class Minesweeper:
         self.__Screen.blit(text, text_rect)
         pygame.display.update()
 
-    def __game_over(self):
+    def __game_over(self) -> None:
+        """
+        Method to stop the game
+
+        :return: None
+        """
         for row in self.__field:
             for cell in row:
                 cell.is_opened = True
@@ -281,27 +348,48 @@ class Minesweeper:
         self.__running = False
 
     def get_adjacent_cells(self, row_index, cell_index) -> List[Cell]:
+        """
+        Get adjacent cells by cell indexes
+
+        :param row_index: Cell y
+        :param cell_index: Cell x
+
+        :return: List of cells
+        """
         adjacent_cells = []
+
+        # Upper row
         if row_index > 0:
             if cell_index > 0:
                 adjacent_cells.append(self.__field[row_index - 1][cell_index - 1])
             adjacent_cells.append(self.__field[row_index - 1][cell_index])
             if cell_index < self.width - 1:
                 adjacent_cells.append(self.__field[row_index - 1][cell_index + 1])
+
+        # Current row
         if cell_index > 0:
             adjacent_cells.append(self.__field[row_index][cell_index - 1])
         if cell_index < self.width - 1:
             adjacent_cells.append(self.__field[row_index][cell_index + 1])
+
+        # Lower row
         if row_index < self.height - 1:
             if cell_index > 0:
                 adjacent_cells.append(self.__field[row_index + 1][cell_index - 1])
             adjacent_cells.append(self.__field[row_index + 1][cell_index])
             if cell_index < self.width - 1:
                 adjacent_cells.append(self.__field[row_index + 1][cell_index + 1])
+
         return adjacent_cells
 
-    def __open_cells_around_empty_cells(self):
+    def __open_cells_around_empty_cells(self) -> None:
+        """
+        Method for open all adjacent cells if empty cell is clicked
+
+        :return: None
+        """
         cell_changed = True
+
         while cell_changed:
             cell_changed = False
             for row_index, row in enumerate(self.__field):
@@ -314,6 +402,11 @@ class Minesweeper:
                                 cell_changed = True
 
     def __all_cells_are_open(self) -> bool:
+        """
+        Checks if all cells are open and/or flagged right
+
+        :return: bool
+        """
         for row in self.__field:
             for cell in row:
                 if not cell.is_opened:
