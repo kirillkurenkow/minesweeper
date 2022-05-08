@@ -1,4 +1,4 @@
-from Source.minesweeper import (
+from Source import (
     Minesweeper,
     GameMode,
 )
